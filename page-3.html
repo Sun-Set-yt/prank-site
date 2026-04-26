@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FINAL LEVEL 💀</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background:url('sunset.png') no-repeat center/cover;
+  color:white;
+  height:100vh;
+}
+
+.overlay{
+  background:rgba(0,0,0,0.5);
+  height:100%;
+  position:relative;
+}
+
+.top-right{ position:absolute; top:10px; right:15px; }
+.top-left{ position:absolute; top:10px; left:15px; }
+
+.center{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+
+button{
+  padding:12px 20px;
+  border-radius:12px;
+  border:none;
+  background:rgba(255,255,255,0.9);
+  color:#333;
+  font-size:16px;
+  cursor:pointer;
+}
+
+#result, #end{ display:none; }
+
+#prankImg{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:999;
+}
+
+.flash{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  opacity:0;
+  z-index:998;
+  transition:opacity 0.1s;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="center">
+  <h1>💀 FINAL LEVEL</h1>
+  <p>This is your last chance 😈</p>
+
+  <button id="btn" onclick="fool()">Last Chance</button>
+
+  <h1 id="result">😂 ULTIMATE FOOL 😂</h1>
+
+  <div id="end">
+    <button onclick="next()">🔁 Next</button>
+    <button onclick="share()">📲 Share</button>
+  </div>
+</div>
+
+<div class="flash" id="flash"></div>
+<img id="prankImg" src="image-4.jpeg">
+<audio id="sound" src="laugh.mp3"></audio>
+
+<script>
+let opened = false;
+
+const btn = document.getElementById("btn");
+const img = document.getElementById("prankImg");
+const flash = document.getElementById("flash");
+const sound = document.getElementById("sound");
+const result = document.getElementById("result");
+const end = document.getElementById("end");
+
+function fool(){
+  if(opened) return;
+  opened = true;
+
+  btn.style.display="none";
+
+  // flash safe sequence
+  flash.style.opacity="1";
+  setTimeout(()=>flash.style.opacity="0",120);
+  setTimeout(()=>flash.style.opacity="1",220);
+  setTimeout(()=>flash.style.opacity="0",320);
+
+  // vibration safe
+  if(navigator.vibrate){
+    navigator.vibrate([100,50,100]);
+  }
+
+  // image
+  img.style.display="block";
+
+  // sound safe autoplay
+  sound.currentTime=0;
+  let playPromise = sound.play();
+  if(playPromise !== undefined){
+    playPromise.catch(()=>{});
+  }
+}
+
+// close prank safely
+function closePrank(){
+  img.style.display="none";
+  result.style.display="block";
+  end.style.display="block";
+}
+
+// click image to close
+img.addEventListener("click", closePrank);
+
+// next page (no data delete)
+function next(){
+  window.location.href="template.html";
+}
+
+// share
+function share(){
+  let url = window.location.href;
+  window.open("https://wa.me/?text=" + encodeURIComponent("😂 Try this: "+url));
+}
+
+// fallback if image broken
+img.onerror = function(){
+  img.style.display="none";
+  result.style.display="block";
+  end.style.display="block";
+};
+</script>
+
+</body>
+</html>

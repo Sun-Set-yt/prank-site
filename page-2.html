@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Level 2 😈</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:url('sunset.png') no-repeat center center / cover;
+      height:100vh;
+      color:white;
+      overflow:hidden;
+    }
+
+    .overlay{
+      background:rgba(0,0,0,0.6);
+      height:100%;
+      position:relative;
+    }
+
+    .top-left{ position:absolute; top:10px; left:15px; z-index:1000; }
+    .top-right{ position:absolute; top:10px; right:15px; z-index:1000; }
+
+    .center{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      width:90%;
+      max-width:420px;
+      z-index:2;
+    }
+
+    button{
+      padding:14px 24px;
+      border:none;
+      border-radius:12px;
+      background:rgba(255,255,255,0.92);
+      font-size:16px;
+      cursor:pointer;
+      margin:6px;
+    }
+
+    #result, #afterUI{
+      display:none;
+      margin-top:16px;
+    }
+
+    #prankImg{
+      display:none;
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:999;
+      cursor:pointer;
+    }
+
+    .flash{
+      position:fixed;
+      inset:0;
+      background:white;
+      opacity:0;
+      z-index:998;
+      pointer-events:none;
+      transition:opacity 0.15s ease;
+    }
+
+    #msg{
+      margin-top:12px;
+      font-size:14px;
+      min-height:20px;
+      color:#ffd;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay">
+    <div class="top-left">
+      <button onclick="history.back()">⬅</button>
+    </div>
+
+    <div class="top-right">
+      <button onclick="toggleSound()" id="soundBtn">🔊 ON</button>
+    </div>
+
+    <div class="center">
+      <h1>😈 Level 2</h1>
+      <p>Don't click... seriously 😏</p>
+
+      <button id="openBtn" onclick="fool()">Open</button>
+
+      <h2 id="result">😂 Too late 😂</h2>
+
+      <div id="afterUI">
+        <button onclick="goNext()">💀 Final Level</button>
+      </div>
+
+      <div id="msg"></div>
+    </div>
+  </div>
+
+  <div class="flash" id="flash"></div>
+  <img id="prankImg" src="image-3.jpeg" alt="Prank image">
+  <audio id="sound" src="laugh.mp3" preload="auto"></audio>
+
+  <script>
+    const sound = document.getElementById("sound");
+    const soundBtn = document.getElementById("soundBtn");
+    const prankImg = document.getElementById("prankImg");
+    const flash = document.getElementById("flash");
+    const result = document.getElementById("result");
+    const afterUI = document.getElementById("afterUI");
+    const msg = document.getElementById("msg");
+    const openBtn = document.getElementById("openBtn");
+
+    let soundEnabled = true;
+    let opened = false;
+
+    function setMessage(text){
+      msg.textContent = text || "";
+    }
+
+    function toggleSound(){
+      soundEnabled = !soundEnabled;
+
+      if(!soundEnabled){
+        sound.pause();
+        sound.currentTime = 0;
+      }
+
+      soundBtn.innerText = soundEnabled ? "🔊 ON" : "🔇 OFF";
+      setMessage(soundEnabled ? "" : "Sound off");
+    }
+
+    function showFlash(){
+      flash.style.opacity = "1";
+      setTimeout(() => {
+        flash.style.opacity = "0";
+      }, 150);
+    }
+
+    function showPrankImage(){
+      prankImg.style.display = "block";
+    }
+
+    function hidePrankImage(){
+      prankImg.style.display = "none";
+    }
+
+    function revealEndUI(){
+      result.style.display = "block";
+      afterUI.style.display = "block";
+    }
+
+    function fool(){
+      if(opened) return;
+      opened = true;
+
+      openBtn.style.display = "none";
+      setMessage("");
+
+      showFlash();
+
+      if(navigator.vibrate){
+        navigator.vibrate(150);
+      }
+
+      showPrankImage();
+
+      if(soundEnabled){
+        sound.currentTime = 0;
+        sound.play().catch(() => {
+          setMessage("Sound blocked by browser");
+        });
+      }
+    }
+
+    function closePrank(){
+      hidePrankImage();
+      revealEndUI();
+    }
+
+    function goNext(){
+      window.location.href = "page-3.html";
+    }
+
+    prankImg.addEventListener("click", closePrank);
+
+    prankImg.addEventListener("error", () => {
+      hidePrankImage();
+      revealEndUI();
+      setMessage("Image file not found");
+    });
+  </script>
+</body>
+</html>

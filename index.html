@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sunset Prank Portal 🌅</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background:url('sunset.png') no-repeat center/cover;
+  height:100vh;
+  color:white;
+}
+.overlay{
+  background:rgba(0,0,0,0.5);
+  height:100%;
+  position:relative;
+}
+
+.top-right{ position:absolute; top:10px; right:15px; }
+.top-left{ position:absolute; top:10px; left:15px; }
+
+.center{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+
+.version{ position:absolute; bottom:10px; right:10px; }
+
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  background:rgba(255,255,255,0.9);
+  color:#333;
+  font-size:16px;
+  cursor:pointer;
+}
+
+#result, #afterUI{ display:none; }
+
+/* Image */
+#prankImg{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:999;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+<!-- 🔐 Login -->
+<div class="top-right">
+  <button onclick="login()">🔐 Login</button>
+</div>
+
+<!-- 🔊 Sound Toggle -->
+<div class="top-left">
+  <button onclick="toggleSound()" id="soundBtn">🔊 ON</button>
+</div>
+
+<!-- 🎯 Center -->
+<div class="center">
+  <h1>🎁 Prank Entry</h1>
+
+  <button onclick="fool(this)">Open</button>
+
+  <h2 id="result">🤣 You are pranked 🤣</h2>
+
+  <div id="afterUI">
+    <button onclick="goNext()">👀 Next</button>
+  </div>
+
+  <!-- ⭐ Rating Button -->
+  <div style="margin-top:20px;">
+    <button onclick="openRating()">⭐ Rate Us</button>
+  </div>
+
+</div>
+
+<div class="version">V.0.0</div>
+
+</div>
+
+<!-- 🎇 Image -->
+<img id="prankImg" src="image-1.jpeg" onclick="closePrank()">
+
+<!-- 🔊 Sound -->
+<audio id="sound" src="laugh.mp3"></audio>
+
+<script>
+
+// 🔊 sound state
+let soundEnabled = true;
+
+// toggle sound
+function toggleSound(){
+  soundEnabled = !soundEnabled;
+
+  let btn = document.getElementById("soundBtn");
+
+  if(soundEnabled){
+    btn.innerText = "🔊 ON";
+  } else {
+    btn.innerText = "🔇 OFF";
+    document.getElementById("sound").pause(); // stop immediately
+  }
+}
+
+// login
+function login(){
+  let name = prompt("Enter your name 😏");
+  if(name){
+    localStorage.setItem("user", name);
+    alert("Welcome " + name);
+  }
+}
+
+// prank click
+function fool(btn){
+  btn.style.display = "none";
+
+  let img = document.getElementById("prankImg");
+  img.style.display = "block";
+
+  // 🔊 play only if ON
+  if(soundEnabled){
+    let s = document.getElementById("sound");
+    s.currentTime = 0;
+    s.play().catch(()=>{});
+  }
+}
+
+// close image
+function closePrank(){
+  document.getElementById("prankImg").style.display = "none";
+
+  document.getElementById("result").style.display="block";
+  document.getElementById("afterUI").style.display="block";
+}
+
+// rating popup
+function openRating(){
+  alert("⭐ Thanks for your support!\nNew pranks coming soon 😏");
+}
+
+// next
+function goNext(){
+  window.location.href = "page-1.html";
+}
+
+</script>
+
+</body>
+</html>
