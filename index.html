@@ -3,13 +3,13 @@
 <head>
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GLW23F64M8"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-020TTX60LL"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-GLW23F64M8');
+  gtag('config', 'G-020TTX60LL');
 </script>
 
 <title>Sunset Prank Portal 🌅</title>
@@ -72,7 +72,7 @@ button{
 
 <!-- 🔐 Login -->
 <div class="top-right">
-  <button onclick="login()">🔐 Login</button>
+  <button onclick="login()" id="loginBtn">🔐 Login</button>
 </div>
 
 <!-- 🔊 Sound Toggle -->
@@ -111,8 +111,29 @@ button{
 
 <script>
 
+window.onload = function(){
+
+const user = localStorage.getItem("firebaseUser");
+
+const btn = document.getElementById("loginBtn");
+
+if(btn){
+
+    if(user){
+        btn.innerText = "👋 " + user;
+        btn.onclick = function(){
+            alert("Already logged in 😎");
+        }
+    } else {
+        btn.innerText = "🔐 Login";
+    }
+}
+
+};
+
 // 🔊 sound state
 let soundEnabled = true;
+
 
 // toggle sound
 function toggleSound(){
@@ -128,14 +149,14 @@ function toggleSound(){
   }
 }
 
-// login
+// LOGIN
 function login(){
-  let name = prompt("Enter your name 😏");
-  if(name){
-    localStorage.setItem("user", name);
-    alert("Welcome " + name);
-  }
+
+window.location.href =
+"https://sun-set-yt.github.io/authentication/?redirect=" + encodeURIComponent(window.location.href);
+
 }
+
 
 // prank click
 function fool(btn){
