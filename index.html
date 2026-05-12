@@ -15,13 +15,7 @@
 <title>Sunset Prank Portal 🌅</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="cookie-banner">
-  🍪 This website uses cookies to improve experience.
-  <br>
-  ⚠️ This is a demo/prank site. No real data is stored.
-  <br><br>
-  <button onclick="acceptCookies()">OK, Got it</button>
-</div>
+
 
 
 <style>
@@ -128,6 +122,14 @@ button{
     <button onclick="openRating()">⭐ Rate Us</button>
   </div>
 
+<div id="cookie-banner">
+  🍪 This website uses cookies to improve experience.
+  <br>
+  ⚠️ This is a demo/prank site. No real data is stored.
+  <br><br>
+  <button onclick="acceptCookies()">OK, Got it</button>
+</div>
+
 </div>
 
 <div class="version">V.0.0</div>
@@ -159,6 +161,14 @@ if(btn){
         btn.innerText = "🔐 Login";
     }
 }
+
+  // 🍪 Cookie check (IMPORTANT)
+  if(localStorage.getItem("cookiesAccepted") === "yes"){
+    const cookie = document.getElementById("cookie-banner");
+    if(cookie){
+      cookie.style.display = "none";
+    }
+  }
 
 };
 
@@ -227,11 +237,7 @@ function acceptCookies(){
   localStorage.setItem("cookiesAccepted", "yes");
 }
 
-window.onload = function(){
-  if(localStorage.getItem("cookiesAccepted") === "yes"){
-    document.getElementById("cookie-banner").style.display = "none";
-  }
-}
+
 
 </script>
 
